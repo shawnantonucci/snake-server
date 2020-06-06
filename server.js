@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+// const path = require("path");
+const helmet = require("helmet");
 const mongoose = require("mongoose");
 
 require("dotenv").config();
@@ -9,6 +11,12 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
+// app.use(express.static(path.join(__dirname, "build")));
+
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 // cors origin URL - Allow inbound traffic from origin
 corsOptions = {

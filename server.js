@@ -23,8 +23,8 @@ app.use(helmet());
 
 // cors origin URL - Allow inbound traffic from origin
 corsOptions = {
-  // origin: "https://snakenode.web.app",
-  origin: "http://localhost:3000",
+  origin: "https://snakenode.web.app",
+  // origin: "http://localhost:3000",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 

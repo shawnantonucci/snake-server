@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const expressip = require("express-ip");
+const path = require("path");
 
 require("dotenv").config();
 
@@ -11,6 +13,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
+app.use(expressip().getIpInfoMiddleware);
 
 // const whitelisted = ["::ffff:127.0.0.1", "::1", "::ffff:10.69.173.87"];
 
@@ -49,7 +52,8 @@ const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
 app.get("/test", (req, res) => {
-  res.send(req.ip);
+  const ipInfo = req.ipInfo;
+  res.send(ipInfo);
 });
 
 app.listen(port, () => {

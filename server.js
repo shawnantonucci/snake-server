@@ -11,7 +11,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
-app.use(expressip().getIpInfoMiddleware);
 
 // cors origin URL - Allow inbound traffic from origin
 corsOptions = {

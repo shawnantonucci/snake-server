@@ -12,16 +12,16 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet());
 
-const whitelisted = ["::ffff:127.0.0.1", "::1", "::ffff:10.69.173.87"];
+// const whitelisted = ["::ffff:127.0.0.1", "::1", "::ffff:10.69.173.87"];
 
-const validateReq = function (req, res, next) {
-  // if (req.connection.remoteAddress === "https://snakenode.web.app") {
-  console.log(req.ip, "connection");
-  if (whitelisted.includes(req.ip)) {
-    next();
-  }
-  return res.status(400).json("Error...");
-};
+// const validateReq = function (req, res, next) {
+//   // if (req.connection.remoteAddress === "https://snakenode.web.app") {
+//   console.log(req.ip, "connection");
+//   if (whitelisted.includes(req.ip)) {
+//     next();
+//   }
+//   return res.status(400).json("Error...");
+// };
 
 // cors origin URL - Allow inbound traffic from origin
 corsOptions = {
@@ -31,7 +31,7 @@ corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(validateReq);
+// app.use(validateReq);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {

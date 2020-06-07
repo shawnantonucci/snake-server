@@ -12,21 +12,24 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet());
 
-const validateReq = function (req, res, next) {
-  if (req.connection.remoteAddress === "https://snakenode.web.app") {
-    // if (req.connection.remoteAddress === "http://localhost:3000") {
-    next();
-  }
-  return res.status(400).json("Error...");
-};
+// const validateReq = function (req, res, next) {
+//   // if (req.connection.remoteAddress === "https://snakenode.web.app") {
+//   console.log(req.ip, "connection");
+//   if (req.connection.remoteAddress === "http://localhost:3000") {
+//     next();
+//   }
+//   return res.status(400).json("Error...");
+// };
 
 // cors origin URL - Allow inbound traffic from origin
 corsOptions = {
-  origin: "https://snakenode.web.app",
-  // origin: "http://localhost:3000",
+  // origin: "https://snakenode.web.app",
+  origin: "http://localhost:3000",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
+
 app.use(cors(corsOptions));
+// app.use(validateReq)
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
@@ -41,7 +44,11 @@ connection.once("open", () => {
 
 const usersRouter = require("./routes/users");
 
-app.use("/users", validateReq(usersRouter));
+app.use("/users", usersRouter);
+
+app.get('/test', (req, res) => {
+  res.send(req.ip)
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

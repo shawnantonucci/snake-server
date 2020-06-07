@@ -2,8 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-const expressip = require("express-ip");
-const path = require("path");
 
 require("dotenv").config();
 
@@ -15,17 +13,6 @@ app.use(express.json());
 app.use(helmet());
 app.use(expressip().getIpInfoMiddleware);
 
-// const whitelisted = ["::ffff:127.0.0.1", "::1", "::ffff:10.69.173.87"];
-
-// const validateReq = function (req, res, next) {
-//   // if (req.connection.remoteAddress === "https://snakenode.web.app") {
-//   console.log(req.ip, "connection");
-//   if (whitelisted.includes(req.ip)) {
-//     next();
-//   }
-//   return res.status(400).json("Error...");
-// };
-
 // cors origin URL - Allow inbound traffic from origin
 corsOptions = {
   origin: "https://snakenode.web.app",
@@ -34,7 +21,6 @@ corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.use(validateReq);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
@@ -50,11 +36,6 @@ connection.once("open", () => {
 const usersRouter = require("./routes/users");
 
 app.use("/users", usersRouter);
-
-app.get("/test", (req, res) => {
-  const ipInfo = req.ipInfo;
-  res.send(ipInfo);
-});
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

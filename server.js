@@ -1,7 +1,7 @@
 const express = require("express"),
   app = express(),
-  server = require("http").createServer(app),
-  io = require("socket.io").listen(server),
+  http = require("http").createServer(app),
+  io = require("socket.io").listen(http),
   path = require("path");
 
 const cors = require("cors");
@@ -20,8 +20,6 @@ app.use(helmet());
 
 const usersConnected = {};
 const webSocketHandler = (socket) => {
-  console.log("User Connected");
-
   socket.on("eatApple", (userID) => {
     if (usersConnected[userID] !== undefined) {
       usersConnected[userID] += 1;
@@ -30,16 +28,18 @@ const webSocketHandler = (socket) => {
     }
   });
 
-  socket.on("endGame", ({ userID, username }) => {
-    console.log(usersConnected, "USERCONNECTED");
-    console.log(userID, "ID");
-    console.log(username, "USERNAME");
+  socket.on("endGame", ({ userID, username, highScore }) => {
+    // console.log(usersConnected[userID], "USERCONNECTED");
+    // console.log(userID, "ID");
+    // console.log(username, "USERNAME");
 
     User.findById(userID).then((user) => {
-      user.username = username;
-      user.score = usersConnected[userID];
+      if (user.score < usersConnected[userID]) {
+        user.username = username;
+        user.score = usersConnected[userID];
 
-      user.save();
+        user.save();
+      }
       usersConnected[userID] = 0;
     });
   });
@@ -76,7 +76,6 @@ app.use("/users", usersRouter);
 
 io.of("/tick").on("connection", webSocketHandler);
 
-app.listen(port, () => {
+http.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
-  io.listen(4020);
 });

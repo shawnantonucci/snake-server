@@ -31,18 +31,18 @@ router.route("/:id").delete((req, res) => {
     .catch((error) => res.status(400).json("Error: " + error));
 });
 
-router.route("/update/:id").post((req, res) => {
-  User.findById(req.params.id)
-    .then((user) => {
-      user.username = req.body.username;
-      user.score = req.body.score;
+// router.route("/update/:id").post((req, res) => {
+//   User.findById(req.params.id)
+//     .then((user) => {
+//       user.username = req.body.username;
+//       user.score = req.body.score;
 
-      user
-        .save()
-        .then(() => res.json("User updated"))
-        .catch((error) => res.status(400).json("Error: " + error));
-    })
-    .catch((error) => res.status(400).json("Error: " + error));
-});
+//       user
+//         .save()
+//         .then(() => res.json("User updated"))
+//         .catch((error) => res.status(400).json("Error: " + error));
+//     })
+//     .catch((error) => res.status(400).json("Error: " + error));
+// });
 
 module.exports = router;

@@ -15,7 +15,8 @@
     "express": "^4.17.1",
     "express-ip": "^1.0.4",
     "helmet": "^3.22.0",
-    "mongoose": "^5.9.18"
+    "mongoose": "^5.9.18",
+    "socket.io": "^2.3.0"
   },
   "engines": {
     "node": "12.13.1"
